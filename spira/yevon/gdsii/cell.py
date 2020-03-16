@@ -2,6 +2,9 @@ import gdspy
 import numpy as np
 import networkx as nx
 from copy import copy, deepcopy
+from typing_extensions import Protocol
+from typing import TypeVar, Optional, List
+
 from spira.yevon import utils
 
 from spira.core.parameters.restrictions import RestrictType
@@ -28,7 +31,7 @@ __all__ = ['Cell', 'CellParameter']
 class MetaCell(MetaInitializer):
     """
     Called when an instance of a SPiRA class is
-    created. Pareses all kwargs and passes it to
+    created. Parses all kwargs and passes it to
     the ParameterInitializer for storing.
 
     class Via(spira.Cell):
@@ -72,6 +75,8 @@ class __Cell__(ParameterInitializer, metaclass=MetaCell):
     __name_generator__ = RDD.ADMIN.NAME_GENERATOR
 
     def __init__(self, **kwargs):
+        self.elements: ElementList = ElementList()
+        self.ports = []
         super().__init__(**kwargs)
 
     def __getitem__(self, key):
@@ -101,10 +106,10 @@ class __Cell__(ParameterInitializer, metaclass=MetaCell):
 
     @property
     def alias_cells(self):
-        childs = {}
+        children = {}
         for c in self.dependencies():
-            childs[c.alias] = c
-        return childs
+            children[c.alias] = c
+        return children
 
     @property
     def alias_elems(self):
@@ -130,13 +135,14 @@ class __Cell__(ParameterInitializer, metaclass=MetaCell):
         return False
 
 
+
 class Cell(__Cell__):
     """ A Cell encapsulates a set of elements that
     describes the layout being generated. """
-
+    
     _next_uid = 0
 
-    lcar = NumberParameter(default=100)
+    characteristic_length = NumberParameter(default=100)
     name = Parameter(fdef_name='create_name', doc='Name of the cell instance.')
 
     def get_alias(self):
@@ -191,11 +197,11 @@ class Cell(__Cell__):
         return self.__name__
 
     def create_netlist(self):
-        net = self.nets(lcar=self.lcar).disjoint()
+        net = self.nets(characteristic_length=self.characteristic_length).disjoint()
         return net
 
-    def nets(self, lcar):
-        return self.elements.nets(lcar=lcar)
+    def nets(self, characteristic_length):
+        return self.elements.nets(characteristic_length=characteristic_length)
 
     def expand_transform(self):
         self.elements.expand_transform()

@@ -7,7 +7,7 @@ __all__ = ['cache', 'parameter']
 def cache():
     """ Caching decorator for caching the result of a 
     function called on an object. If not in cache call 
-    the underlying function, then case the result """
+    the underlying function, then cache the result """
     def _cache(function):
         def __cache(*args, **kw):
             fstring = function.__name__.encode('utf-8')

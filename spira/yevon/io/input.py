@@ -8,7 +8,7 @@ from spira.yevon.process import get_rule_deck
 RDD = get_rule_deck()
 
 
-class __InputBasic__(ParameterInitializer):
+class __Input__(ParameterInitializer):
     """  """
 
     file_name = StringParameter()
@@ -24,7 +24,7 @@ class __InputBasic__(ParameterInitializer):
         raise NotImplementedError('Must provide implementation in subclass.')
 
 
-class InputBasic(__InputBasic__):
+class InputBasic(__Input__):
     """  """
 
     prefix = StringParameter(default='')

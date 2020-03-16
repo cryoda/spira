@@ -138,7 +138,7 @@ class BasicSpline(shapes.Shape):
 #         S.move((-d, 0.0))
 #         S.rotate((0.0,0.0), orientation(self.turn_point, self.start_point))
 #         S.move(self.turn_point)
-#         S.remove_identicals()
+#         S.remove_duplicates()
         
 #         return S.points
 

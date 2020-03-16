@@ -110,7 +110,7 @@ class Polygon(__ShapeElement__):
         # cc.ports += self.edge_ports
         return cc
 
-    def nets(self, lcar):
+    def nets(self, characteristic_length):
         from spira.yevon.geometry.nets.net import Net
         from spira.yevon.vmodel.geometry import GmshGeometry
         from spira.yevon import filters
@@ -118,8 +118,8 @@ class Polygon(__ShapeElement__):
         if self.layer.purpose.symbol in ['METAL', 'DEVICE_METAL', 'CIRCUIT_METAL']:
 
             if RDD.ENGINE.GEOMETRY == 'GMSH_ENGINE':
-                geometry = GmshGeometry(lcar=0.5,
-                # geometry = GmshGeometry(lcar=lcar,
+                geometry = GmshGeometry(characteristic_length=0.5,
+                # geometry = GmshGeometry(characteristic_length=characteristic_length,
                     process=self.layer.process,
                     process_polygons=[deepcopy(self)])
 

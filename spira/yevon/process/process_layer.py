@@ -23,16 +23,16 @@ class MetaProcessLayer(MetaInitializer):
             symbol = params[1]
         else:
             symbol = "XX"
-            raise AttributeError("Extension for a process layer should not be empty. Reset to XX")
+            raise AttributeError("Symbol for a process layer should not be empty. Reset to XX")
 
         # extract the name of the new structure based on the arguments of
         # the constructor. For default structures, the name is passed as the first argument
 
-        L = type.__call__(cls, *params, **keyword_params)
         exist = DEFINED_PROCESS_LAYERS.get(symbol, None)
         if exist:
             return exist
         else:
+            L = type.__call__(cls, *params, **keyword_params)
             DEFINED_PROCESS_LAYERS[symbol] = L
             return L
 
@@ -44,11 +44,13 @@ class ProcessLayer(ParameterInitializer, metaclass=MetaProcessLayer):
     symbol = StringParameter()
 
     def __init__(self, name, symbol, **kwargs):
-        super().__init__(name = name, symbol = symbol, **kwargs)
+        super().__init__(name=name, symbol=symbol, **kwargs)
 
     def __eq__(self, other):
-        if not isinstance(other, ProcessLayer): return False
-        return self.symbol == other.symbol
+        if not isinstance(other, ProcessLayer):
+            return False
+        else:
+            return self.symbol == other.symbol
 
     def __ne__(self, other):
         return (not self.__eq__(other))    

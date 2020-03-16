@@ -1,3 +1,4 @@
+
 import spira.all as spira
 
 from tests._03_structures._02_jj import Junction

@@ -19,14 +19,25 @@ REGISTERED_CLASSES = set()
 
 def is_suppressed(propvalue):
     if isinstance(propvalue, tuple):
-        return SUPPRESSED == propvalue
+        return SUPPRESSED is propvalue
     else:
         return False
 
 
 class MetaBase(MetaMixinBowl):
-    """ ProcessLayer Metaclass to register and bind class to property
-    functions. All elements connect to this metaclass. """
+    """ Metaclass to register and bind class to property
+    functions. All elements connect to this metaclass.
+
+    A parameter is (mathematics|physics) a variable kept constant during an experiment,
+    calculation or similar;
+    or
+    An input variable of a procedure definition, that gets an actual value (argument)
+    at execution time (formal parameter).
+
+    Whereas a property is an attribute or abstract quality associated
+    with an individual, object or concept.
+    Alludes to possession of said attr or quality.
+    """
 
     @classmethod
     def __prepare__(cls, name, bases, **kwds):
@@ -73,7 +84,7 @@ class MetaBase(MetaMixinBowl):
 
 class MetaInitializer(MetaBase):
     """
-    Metaclass that initiates spira classes for
+    Metaclass that initializes spira classes for
     meta-configuring classes and parameters.
     """
 
@@ -258,7 +269,7 @@ class __ParameterInitializer__(metaclass=MetaInitializer):
                 ex_parameters.append(i)
         return ex_parameters
 
-    def _copy__(self):
+    def _copy__(self): #TODO : fix naming
         kwargs = {}
         for p in self.__external_parameters__():
             kwargs[p] = getattr(self, p)

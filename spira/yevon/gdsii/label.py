@@ -6,7 +6,7 @@ from spira.yevon.gdsii.base import __LayerElement__
 from spira.core.parameters.variables import *
 from spira.yevon.geometry.coord import Coord, CoordParameter
 from spira.yevon.process import get_rule_deck
-
+from spira.yevon.gdsii.polygon import Polygon
 
 RDD = get_rule_deck()
 
@@ -23,7 +23,7 @@ class __Label__(__LayerElement__):
         super().__init__(position=position, **kwargs)
 
     def encloses(self, ply):
-        if isinstance(ply, spira.Polygon):
+        if isinstance(ply, Polygon):
             return pyclipper.PointInPolygon(self.position, ply.shape.points) != 0
         elif isinstance(ply, (list, set, np.ndarray)):
             return pyclipper.PointInPolygon(self.position, ply) != 0
@@ -44,8 +44,9 @@ class Label(__Label__):
 
     Example
     -------
-    >>> lbl = spira.Label(text='P1', position=(0,0))
-    >>> [SPiRA: Label] (P1 at (0,0), texttype 0)
+    >>> lbl = spira.Label(text='P1', position=(0, 0))
+    >>> [SPiRA: Label] (P1 at (0, 0), texttype 0)
+
     """
 
     position = CoordParameter(default=(0,0))

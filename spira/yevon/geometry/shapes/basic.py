@@ -13,8 +13,8 @@ from spira.core.transforms.reflection import shape_reflect
 class RectangleShape(Shape):
     """ Creates a rectangular shape. """
 
-    p1 = CoordParameter(default=(0,0), doc='Bottom left corner coordinate.')
-    p2 = CoordParameter(default=(2,2), doc='Top right corner coodinate.')
+    p1 = CoordParameter(default=(0, 0), doc='Bottom left corner coordinate.')
+    p2 = CoordParameter(default=(2, 2), doc='Top right corner coodinate.')
 
     def create_points(self, points):
         points = [[self.p1[0], self.p1[1]],

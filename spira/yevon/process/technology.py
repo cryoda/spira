@@ -88,7 +88,6 @@ class __Database__(object):
                 if self.__dict__[k] == item:
                     return k
 
-
 class Database(__Database__):
     """ A hierarchical tree for storing fabrication data. """
 
@@ -153,8 +152,8 @@ class ParameterDatabase(__Database__):
 class TechnologyLibrary(Database):
     """ The fabrication process library """
 
-    def __init__(self, name, description = None, fallback= None, **kwargs):
-        super(TechnologyLibrary, self).__init__(fallback = fallback)
+    def __init__(self, name, description = None, fallback=None, **kwargs):
+        super(TechnologyLibrary, self).__init__(fallback=fallback, **kwargs)
         self.name = name
         self.desc = description
 

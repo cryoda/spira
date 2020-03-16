@@ -38,7 +38,7 @@ class VirtualProcessModel(__VirtualModel__):
             if RDD.ENGINE.GEOMETRY == 'GMSH_ENGINE':
                 process_geom[pg.process] = GmshGeometry(process=pg.process, process_polygons=pg.elements)
             else:
-                raise ValueError('Geometry engine type not specificied in RDD.')
+                raise ValueError('Geometry engine type not specified in RDD.')
         return process_geom
 
 
@@ -108,7 +108,7 @@ class VirtualConnect(__VirtualModel__):
         return overlap_edges
 
     def _connect_boundary_edges(self, D, derived_edges, overlap_edges):
-        """ Connect the edges that falls on a shape boudnary,
+        """ Connect the edges that falls on a shape boundary,
         since there is no overlapping polygon in this case. """
         for i, edge in enumerate(derived_edges):
             if edge.layer.purpose == RDD.PURPOSE.PORT.OUTSIDE_EDGE_DISABLED:

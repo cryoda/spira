@@ -4,7 +4,8 @@ from spira.yevon.process import get_rule_deck
 RDD = get_rule_deck()
 
 # FIXME: Move a geometry bridge class.
-RDD.LCAR_DEVICE = 1
+# characteristic length
+RDD.LCAR_DEVICE = 1 
 RDD.LCAR_CIRCUIT = 100
 
 # ---------------------------------- GDSII ---------------------------------------

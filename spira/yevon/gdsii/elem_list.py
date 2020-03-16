@@ -103,11 +103,11 @@ class ElementList(__ElementList__):
                 SI += e.bbox_info
             return SI
 
-    def nets(self, lcar=100):
+    def nets(self, characteristic_length=100):
         from spira.yevon.geometry.nets.net_list import NetList
         nets = NetList()
         for e in self._list:
-            nets += e.nets(lcar=lcar)
+            nets += e.nets(characteristic_length=characteristic_length)
         return nets
 
     def dependencies(self):
@@ -165,7 +165,7 @@ class ElementList(__ElementList__):
             return pp == e
 
     def is_empty(self):
-        if (len(self._list) == 0):
+        if len(self._list) == 0:
             return True
         for e in self._list:
             if not e.is_empty():

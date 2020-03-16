@@ -62,7 +62,7 @@ class PointArrayParameter(ParameterDescriptor):
             return np.array([[points[0], points[1]]])
         else:
             raise TypeError("Invalid type of points in setting " +
-                "value of PointsDefinitionProperty: " + str(type(points)))
+                            "value of PointsDefinitionProperty: " + str(type(points)))
 
     def __set__(self, obj, points):
         points = self.__process__(points)
@@ -144,7 +144,7 @@ class __Shape__(Transformable, ParameterInitializer):
             solution = pyclipper.SimplifyPolygon(pts)
         self.points = sf(solution, sc)[0]
         return self
-    
+
     def segments(self):
         """ Returns a list of point pairs 
         with the segments of the shape. """
@@ -162,7 +162,7 @@ class __Shape__(Transformable, ParameterInitializer):
         from spira.settings import get_grids_per_unit
         if grids_per_unit is None:
             grids_per_unit = get_grids_per_unit()
-        self.points = (np.floor(self.points * grids_per_unit + 0.5)) / grids_per_unit 
+        self.points = (np.floor(self.points * grids_per_unit + 0.5)) / grids_per_unit
         return self
 
     def move(self, pos):
@@ -183,20 +183,20 @@ class __Shape__(Transformable, ParameterInitializer):
         self.points = np.column_stack((x[order], y[order]))
         return self
 
-    def remove_identicals(self):
+    def remove_duplicates(self):
         """ Removes consecutive identical points """
         from spira import settings
         pts = self.points
         if len(pts) > 1:
-            identicals = np.prod(abs(pts - np.roll(self.points, -1, 0)) < 0.5 / settings.get_grids_per_unit(), 1)
+            duplicates = np.prod(abs(pts - np.roll(self.points, -1, 0)) < 0.5 / settings.get_grids_per_unit(), 1)
             if not self.is_closed:
-                identicals[-1] = False
-            self.points = np.delete(pts, identicals.nonzero()[0], 0)
+                duplicates[-1] = False
+            self.points = np.delete(pts, duplicates.nonzero()[0], 0)
         return self
 
     def remove_straight_angles(self):
         """ removes points with turn zero or 180 degrees """
-        Shape.remove_identicals(self)
+        Shape.remove_duplicates(self)
         pts = self.points
         if len(pts) > 1:
             straight = (abs(abs((self.turns_rad() + (0.5 * np.pi)) % np.pi) - 0.5 * np.pi) < 0.00001)
@@ -316,7 +316,7 @@ class Shape(__Shape__):
         if (len(self.points) == 0):
             self.points = points
         else:
-            if isinstance(points, Shape):            
+            if isinstance(points, Shape):
                 self.points = np.vstack((self.points, points.points))
             elif isinstance(points, (list, np.ndarray)):
                 self.points = np.vstack((self.points, points))
@@ -388,7 +388,7 @@ def ShapeParameter(restriction=None, preprocess=None, **kwargs):
 #                 width=width,
 #                 transformation=self.transformation
 #             )
-            
+
 #         return elems
 
 
@@ -397,7 +397,7 @@ def shape_edge_ports(shape, layer, local_pid='None', center=(0,0), loc_name=''):
     # FIXME: Integrate with edges.
     from spira.yevon.geometry.ports.port import Port
     from spira.yevon.process.gdsii_layer import Layer
-    
+
     shape = shape.remove_straight_angles()
     # shape = shape.reverse_points()
 
@@ -415,8 +415,10 @@ def shape_edge_ports(shape, layer, local_pid='None', center=(0,0), loc_name=''):
     for i in range(0, n):
         clockwise += ((xpts[i+1] - xpts[i]) * (ypts[i+1] + ypts[i]))
 
-    if layer.name == 'BBOX': bbox = True
-    else: bbox = False
+    if layer.name == 'BBOX':
+        bbox = True
+    else:
+        bbox = False
 
     layer = RDD.GDSII.IMPORT_LAYER_MAP[layer]
 

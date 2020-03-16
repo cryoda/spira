@@ -5,12 +5,12 @@ import numpy as np
 import spira.all as spira
 from copy import copy, deepcopy
 from spira.core.transforms import *
-from spira.yevon.io.input import BasicInput
+from spira.yevon.io.input import InputBasic
 from numpy.linalg import norm
 # from spira.validatex.lvs.detection import *
 
 
-class InputGdsii(BasicInput):
+class InputGdsii(InputBasic):
     pass
 
 

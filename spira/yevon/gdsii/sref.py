@@ -102,9 +102,9 @@ class SRef(__RefElement__):
         return True
 
     def expand_transform(self):
-        from spira.yevon.gdsii.sref import SRef
+        # from spira.yevon.gdsii.sref import SRef # TODO remove this
         from spira.yevon.gdsii.polygon import Polygon
-        from spira.core.transforms.identity import IdentityTransform
+        from spira.core.transforms.identity import IdentityTransform  # TODO remove this
 
         C = self.reference.__class__(
             name='{}_{}'.format(self.reference.name, self.transformation.id_string()),
@@ -389,7 +389,7 @@ class SRef(__RefElement__):
                 T = stretching.stretch_element_by_port(self, opposite_port, port, destination)
                 T.apply(D.reference.elements[i])
 
-    def nets(self, lcar):
+    def nets(self, characteristic_length):
         """  """
 
         from spira.yevon.geometry.nets.net_list import NetList

@@ -34,9 +34,9 @@ class GmshGeometry(__Geometry__):
 
     _uid = 0
 
-    lcar = NumberParameter(default=100, doc='Mesh characteristic length.')
+    characteristic_length = NumberParameter(default=100, doc='Mesh characteristic length.')
     algorithm = IntegerParameter(default=1, doc='Mesh algorithm used by Gmsh.')
-    scale_Factor = NumberParameter(default=1e-6, doc='Mesh coord dimention scaling.')
+    scale_Factor = NumberParameter(default=1e-6, doc='Mesh coord dimension scaling.')
     coherence_mesh = BoolParameter(defualt=True, doc='Merge similar points.')
 
     process = ProcessParameter()
@@ -60,8 +60,8 @@ class GmshGeometry(__Geometry__):
         super().__init__(**kwargs)
 
         self.geom = pygmsh.opencascade.Geometry(
-            characteristic_length_min=self.lcar,
-            characteristic_length_max=self.lcar
+            characteristic_length_min=self.characteristic_length,
+            characteristic_length_max=self.characteristic_length
         )
         self.geom.add_raw_code('Mesh.Algorithm = {};'.format(self.algorithm))
         self.geom.add_raw_code('Mesh.ScalingFactor = {};'.format(self.scale_Factor))
@@ -79,7 +79,7 @@ class GmshGeometry(__Geometry__):
             layer = RDD.GDSII.EXPORT_LAYER_MAP[ply.layer]
             pts = [[p[0], p[1], 0] for p in shape.points]
             surface_label = '{}_{}_{}_{}'.format(layer.number, layer.datatype, GmshGeometry._ID, i)
-            gp = self.geom.add_polygon(pts, lcar=self.lcar, make_surface=True, holes=None)
+            gp = self.geom.add_polygon(pts, lcar=self.characteristic_length, make_surface=True, holes=None)
 
             for j, ll in enumerate(gp.lines):
                 pid = ply.shape.segment_labels[j].split(' - hash ')

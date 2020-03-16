@@ -1,6 +1,7 @@
 import numpy as np
 from spira.core.parameters.restrictions import RestrictNothing
 from spira.core.parameters.processors import ParameterProcessor
+import sys
 
 
 __all__ = ['ParameterDescriptor', 'FunctionParameter', 'Parameter']
@@ -28,7 +29,7 @@ class __Parameter__(object):
     __keywords__ = ['default', 'fdef_name', 'locked', 'doc']
 
     def __init__(self, **kwargs):
-        self.__doc__ = 'No documenation generated'
+        self.__doc__ = 'No documentation generated'
         if 'doc' in kwargs:
             self.__doc__ = kwargs['doc']
             kwargs.pop('doc')
@@ -75,7 +76,7 @@ class ParameterDescriptor(__Parameter__):
 
     def __get__(self, obj, type=None):
         """
-        Called when retieving a value from an instance.
+        Called when retrieving a value from an instance.
         Following from `via` in __set__, the following
         can be executed:
 
@@ -297,7 +298,6 @@ class SetFunctionParameter(__Parameter__):
             self.__name__ = '__prop_{}__'.format(name)
 
 
-import sys
 
 def is_call_internal(obj, level=1):
     """ checks if a call to a function is done from within the object

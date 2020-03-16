@@ -5,9 +5,9 @@ from spira.core.parameters.descriptor import RestrictedParameter
 
 
 NUMBER = RestrictType((int, float, np.int32, np.int64, np.float))
-FLOAT = RestrictType(float)
-INTEGER = RestrictType(int)
-COMPLEX = RestrictType((int, float, complex))
+FLOAT = RestrictType((float, np.float))
+INTEGER = RestrictType((int, np.int32, np.int64))
+COMPLEX = RestrictType(complex) & NUMBER
 STRING = RestrictType(str)
 BOOL = RestrictType(bool)
 DICTIONARY = RestrictType(dict)
@@ -15,6 +15,14 @@ LIST = RestrictType(list)
 TUPLE = RestrictType(tuple)
 NUMPY_ARRAY = RestrictType(np.ndarray)
 GRAPH = RestrictType(nx.Graph)
+
+
+# class NumberParameter:
+#     def __new__(cls, restriction=None, **kwargs):
+#         if 'default' not in kwargs:
+#             kwargs['default'] = 0
+#         R = NUMBER & restriction
+#         return RestrictedParameter(restriction=R, **kwargs)
 
 
 def NumberParameter(restriction=None, **kwargs):
@@ -25,14 +33,14 @@ def NumberParameter(restriction=None, **kwargs):
 
 
 def ComplexParameter(restriction=None, **kwargs):
-    from .variables import COMPLEX
     if 'default' not in kwargs:
         kwargs['default'] = 0
-    return RestrictedParameter(restriction=COMPLEX, **kwargs)
+
+    R = COMPLEX & restriction
+    return RestrictedParameter(restriction=R, **kwargs)
 
 
 def IntegerParameter(restriction=None, preprocess=None, **kwargs):
-    from .variables import INTEGER
     if 'default' not in kwargs:
         kwargs['default'] = 0
     R = INTEGER & restriction
@@ -42,14 +50,13 @@ def IntegerParameter(restriction=None, preprocess=None, **kwargs):
 
 
 def FloatParameter(restriction=None, **kwargs):
-    from .variables import FLOAT
     if 'default' not in kwargs:
         kwargs['default'] = 0.0
-    return RestrictedParameter(restriction=FLOAT, **kwargs)
+    R = FLOAT & restriction
+    return RestrictedParameter(restriction=R, **kwargs)
 
 
 def StringParameter(restriction=None, **kwargs):
-    from .variables import STRING
     if 'default' not in kwargs:
         kwargs['default'] = ''
     R = STRING & restriction
@@ -57,14 +64,13 @@ def StringParameter(restriction=None, **kwargs):
 
 
 def BoolParameter(restriction=None, **kwargs):
-    from .variables import BOOL
     if 'default' not in kwargs:
         kwargs['default'] = False
-    return RestrictedParameter(restriction=BOOL, **kwargs)
+    R = BOOL & restriction
+    return RestrictedParameter(restriction=R, **kwargs)
 
 
 def ListParameter(restriction=None, **kwargs):
-    from .variables import LIST
     if 'default' not in kwargs:
         kwargs['default'] = []
     R = LIST & restriction
@@ -72,14 +78,13 @@ def ListParameter(restriction=None, **kwargs):
 
 
 def TupleParameter(restriction=None, **kwargs):
-    from .variables import TUPLE
     if 'default' not in kwargs:
         kwargs['default'] = []
-    return RestrictedParameter(restriction=TUPLE, **kwargs)
+    R = TUPLE & restriction
+    return RestrictedParameter(restriction=R, **kwargs)
 
 
 def DictParameter(local_name=None, restriction=None, **kwargs):
-    from .variables import DICTIONARY
     if 'default' not in kwargs:
         kwargs['default'] = {}
     R = DICTIONARY & restriction
@@ -87,14 +92,13 @@ def DictParameter(local_name=None, restriction=None, **kwargs):
 
 
 def NumpyArrayParameter(restriction=None, **kwargs):
-    from .variables import NUMPY_ARRAY
     if 'default' not in kwargs:
         kwargs['default'] = np.array([])
-    return RestrictedParameter(restriction=NUMPY_ARRAY, **kwargs)
+    R = NUMPY_ARRAY & restriction
+    return RestrictedParameter(restriction=R, **kwargs)
 
 
 def GraphParameter(restriction=None, **kwargs):
-    from .variables import GRAPH
     if 'default' not in kwargs:
         kwargs['default'] = nx.Graph()
     R = GRAPH & restriction
@@ -103,7 +107,7 @@ def GraphParameter(restriction=None, **kwargs):
 
 def TimeParameter(local_name=None, restriction=None, **kwargs):
     import time
-    R = NUMBER & restriction
     if not 'default' in kwargs:
         kwargs['default'] = time.time()
+    R = NUMBER & restriction
     return RestrictedParameter(local_name, restriction=R, **kwargs)

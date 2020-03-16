@@ -27,11 +27,13 @@ class PCell(Cell):
         super().__init__(**kwargs)
 
 
+
+
 class Device(PCell):
     """  """
 
-    # lcar = NumberParameter(default=RDD.PCELL.LCAR_DEVICE)
-    lcar = NumberParameter(default=1)
+    # characteristic_length = NumberParameter(default=RDD.PCELL.characteristic_length_DEVICE)
+    characteristic_length = NumberParameter(default=1)
 
     def __init__(self, pcell=True, **kwargs):
         super().__init__(**kwargs)
@@ -76,8 +78,8 @@ class Circuit(PCell):
     corners = StringParameter(default='miter', doc='Define the type of path joins.')
     bend_radius = NumberParameter(allow_none=True, default=None, doc='Bend radius of path joins.')
 
-    # lcar = NumberParameter(default=RDD.LCAR_CIRCUIT)
-    lcar = NumberParameter(default=100)
+    # characteristic_length = NumberParameter(default=RDD.characteristic_length_CIRCUIT)
+    characteristic_length = NumberParameter(default=100)
 
     def __repr__(self):
         class_string = "[SPiRA: Circuit(\'{}\')] (elements {}, ports {})"

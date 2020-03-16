@@ -24,9 +24,6 @@ class EdgeInductor(object):
         EdgeInductor._ID += 1
 
 
-
-
-
 from spira.core.parameters.initializer import ParameterInitializer
 class typed_list(ParameterInitializer, list):
     __item_type__ = object

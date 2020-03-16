@@ -82,7 +82,7 @@ class RestrictRange(__ParameterRestriction__):
         self.upper_inc = upper_inc
         if lower is None and upper is None:
             raise ValueError("Range Restriction should have an upper or lower limit")
-        if not upper is None and not lower is None:
+        if upper is not None and lower is not None:
             if lower > upper:
                 raise ValueError("lower limit should be smaller than upper limit in Range Restriction")
 
@@ -123,7 +123,7 @@ class RestrictRange(__ParameterRestriction__):
 
 
 class RestrictContains(__ParameterRestriction__):
-    """ Restrict the argument to an object with contains at least one of a set of allowed values """
+    """ Restrict the argument to an object that contains at least one of a set of allowed values """
 
     def __init__(self, allowed_values):
         self.allowed_values = allowed_values
